@@ -1,0 +1,36 @@
+[
+  {
+    "arguments": [
+      "/opt/riscv/bin/riscv64-unknown-elf-gcc",
+      "-march=rv32g",
+      "-mabi=ilp32",
+      "-Wno-builtin-declaration-mismatch",
+      "-ffreestanding",
+      "-nostdlib",
+      "-c",
+      "-o",
+      "src/common.o",
+      "src/common.c"
+    ],
+    "directory": "/home/vagrant/Programming/RiscV/os1000",
+    "file": "/home/vagrant/Programming/RiscV/os1000/src/common.c",
+    "output": "/home/vagrant/Programming/RiscV/os1000/src/common.o"
+  },
+  {
+    "arguments": [
+      "/opt/riscv/bin/riscv64-unknown-elf-gcc",
+      "-march=rv32g",
+      "-mabi=ilp32",
+      "-Wno-builtin-declaration-mismatch",
+      "-ffreestanding",
+      "-nostdlib",
+      "-c",
+      "-o",
+      "src/kernel.o",
+      "src/kernel.c"
+    ],
+    "directory": "/home/vagrant/Programming/RiscV/os1000",
+    "file": "/home/vagrant/Programming/RiscV/os1000/src/kernel.c",
+    "output": "/home/vagrant/Programming/RiscV/os1000/src/kernel.o"
+  }
+]

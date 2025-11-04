@@ -1,0 +1,148 @@
+
+Discarded input sections
+
+ .group         0x00000000        0xc src/common.o
+ .group         0x00000000        0xc src/common.o
+ .debug_info    0x00000000      0x2ba src/common.o
+ .debug_abbrev  0x00000000      0x145 src/common.o
+ .debug_aranges
+                0x00000000       0x20 src/common.o
+ .debug_macro   0x00000000       0x1a src/common.o
+ .debug_macro   0x00000000      0x898 src/common.o
+ .debug_macro   0x00000000       0x3a src/common.o
+ .debug_line    0x00000000      0x353 src/common.o
+ .debug_str     0x00000000     0x2ccd src/common.o
+ .debug_line_str
+                0x00000000       0x7a src/common.o
+ .debug_frame   0x00000000       0xd8 src/common.o
+ .group         0x00000000        0xc src/kernel.o
+ .group         0x00000000        0xc src/kernel.o
+ .group         0x00000000        0xc src/kernel.o
+ .debug_info    0x00000000      0x6bc src/kernel.o
+ .debug_abbrev  0x00000000      0x24a src/kernel.o
+ .debug_aranges
+                0x00000000       0x20 src/kernel.o
+ .debug_macro   0x00000000       0x29 src/kernel.o
+ .debug_macro   0x00000000      0x898 src/kernel.o
+ .debug_macro   0x00000000       0x3a src/kernel.o
+ .debug_macro   0x00000000       0x28 src/kernel.o
+ .debug_line    0x00000000      0x47a src/kernel.o
+ .debug_str     0x00000000     0x2f71 src/kernel.o
+ .debug_line_str
+                0x00000000       0x83 src/kernel.o
+ .debug_frame   0x00000000      0x170 src/kernel.o
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+                0x80200000                        . = 0x80200000
+
+.text           0x80200000      0xcbc
+ *(.text.boot)
+ .text.boot     0x80200000       0x10 src/boot.o
+                0x80200000                boot
+ *(.text .text.*)
+ .text          0x80200010        0x0 src/boot.o
+ .text          0x80200010      0x118 src/kernelEntry.o
+                0x80200010                kernel_entry
+ .text          0x80200128       0x7c src/switchContext.o
+                0x80200128                switch_context
+ .text          0x802001a4      0x450 src/common.o
+                0x802001a4                memset
+                0x8020020c                memcpy
+                0x80200284                strcpy
+                0x802002f4                strcmp
+                0x80200388                printf
+ .text          0x802005f4      0x6c8 src/kernel.o
+                0x802005f4                alloc_pages
+                0x80200694                sbi_call
+                0x80200728                putchar
+                0x80200778                createProcess
+                0x80200978                yield
+                0x80200a98                handle_trap
+                0x80200b04                delay
+                0x80200b54                proc_a_entry
+                0x80200b84                proc_b_entry
+                0x80200bb4                kernel_main
+
+.rodata         0x80200cbc       0xf6
+ *(.rodata .rodata.*)
+ .rodata        0x80200cbc       0x11 src/common.o
+ *fill*         0x80200ccd        0x3 
+ .rodata        0x80200cd0       0xe2 src/kernel.o
+
+.rela.dyn       0x80200db4        0x0
+ .rela.text.boot
+                0x80200db4        0x0 src/boot.o
+ .rela.text     0x80200db4        0x0 src/boot.o
+ .rela.sdata    0x80200db4        0x0 src/boot.o
+
+.data           0x80200db4        0x0
+ *(.data .data.*)
+ .data          0x80200db4        0x0 src/boot.o
+ .data          0x80200db4        0x0 src/kernelEntry.o
+ .data          0x80200db4        0x0 src/switchContext.o
+ .data          0x80200db4        0x0 src/common.o
+ .data          0x80200db4        0x0 src/kernel.o
+
+.sdata          0x80200db4        0x4
+ .sdata         0x80200db4        0x4 src/kernel.o
+
+.bss            0x80200db8    0x10070
+                0x80200db8                        __bss = .
+ *(.bss .bss.* .sbss .sbss.*)
+ .bss           0x80200db8        0x0 src/boot.o
+ .bss           0x80200db8        0x0 src/kernelEntry.o
+ .bss           0x80200db8        0x0 src/switchContext.o
+ .bss           0x80200db8        0x0 src/common.o
+ .bss           0x80200db8    0x10060 src/kernel.o
+                0x80200db8                procs
+ .sbss          0x80210e18       0x10 src/kernel.o
+                0x80210e18                current_proc
+                0x80210e1c                idle_proc
+                0x80210e20                proc_a
+                0x80210e24                proc_b
+                0x80210e28                        __bss_end = .
+                0x80210e28                        . = ALIGN (0x4)
+                0x80230e28                        . = (. + 0x20000)
+                0x80230e28                        __stack_top = .
+                0x80231000                        . = ALIGN (0x1000)
+                0x80231000                        __free_ram = .
+                0x84231000                        . = (. + 0x4000000)
+                0x84231000                        __free_ram_end = .
+LOAD src/boot.o
+LOAD src/kernelEntry.o
+LOAD src/switchContext.o
+LOAD src/common.o
+LOAD src/kernel.o
+OUTPUT(bin/kernel.elf elf32-littleriscv)
+
+.riscv.attributes
+                0x00000000       0x65
+ .riscv.attributes
+                0x00000000       0x5f src/boot.o
+ .riscv.attributes
+                0x0000005f       0x63 src/kernelEntry.o
+ .riscv.attributes
+                0x000000c2       0x5f src/switchContext.o
+ .riscv.attributes
+                0x00000121       0x61 src/common.o
+ .riscv.attributes
+                0x00000182       0x65 src/kernel.o
+
+.comment        0x00000000       0x19
+ .comment       0x00000000       0x19 src/common.o
+                                 0x1a (size before relaxing)
+ .comment       0x00000019        0x0 src/kernel.o
+                                 0x1a (size before relaxing)
+
+.note.GNU-stack
+                0x00000000        0x0
+ .note.GNU-stack
+                0x00000000        0x0 src/common.o
+ .note.GNU-stack
+                0x00000000        0x0 src/kernel.o

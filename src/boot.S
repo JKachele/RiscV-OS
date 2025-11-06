@@ -2,6 +2,6 @@
 .section .text.boot
 
 boot:
-    LA sp, __stack_top
-    CALL kernel_main
-    J .
+    la sp, __stack_top
+    call kernel_main
+    j .

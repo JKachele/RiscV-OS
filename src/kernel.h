@@ -9,15 +9,13 @@
 #define KERNEL_H
 
 #include "common.h"
-
-#define PROCS_MAX 8
-#define PROC_UNUSED 0
-#define PROC_RUNNABLE 1
+#include "defines.h"
 
 struct process {
         int pid;        // Process ID
         int state;      // Process State: PROC_UNUSED or PROC_RUNNABLE
         vaddr_t sp;     // Stack pointer
+        u32 *pageTable; // Process Page Table for virtual memory
         u8 stack[8192]; // Kernel stack
 };
 
@@ -71,14 +69,14 @@ struct sbiret {
 #define READ_CSR(reg)                                                   \
         ({                                                              \
                 unsigned long __tmp;                                    \
-                asm("csrr %0, " #reg : "=r"(__tmp));                    \
+                asm volatile("csrr %0, " #reg : "=r"(__tmp));                    \
                 __tmp;                                                  \
         })
 
 #define WRITE_CSR(reg, value)                                           \
         do {                                                            \
                 u32 __tmp = (value);                                    \
-                asm("csrw " #reg ", %0" ::"r"(__tmp));                  \
+                asm volatile("csrw " #reg ", %0" ::"r"(__tmp));                  \
         } while(0)
 
 #endif
